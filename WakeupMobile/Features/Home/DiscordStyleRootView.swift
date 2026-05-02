@@ -6,6 +6,7 @@ struct DiscordStyleRootView: View {
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedChannel: $selectedChannel)
+                .navigationSplitViewColumnWidth(min: 220, ideal: 260)
         } detail: {
             ChatView(channelName: selectedChannel)
         }
