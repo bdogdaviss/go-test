@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct DiscordStyleRootView: View {
+    @State private var selectedChannel = "general"
+
     var body: some View {
         NavigationSplitView {
-            SidebarView()
+            SidebarView(selectedChannel: $selectedChannel)
         } detail: {
-            ChatView()
+            ChatView(channelName: selectedChannel)
         }
+        .navigationSplitViewStyle(.balanced)
+        .background(Color.discordBackground)
     }
 }
