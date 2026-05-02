@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ChatView: View {
     let channelName: String
+    var onMenuTap: () -> Void = {}
+
     @State private var draftMessage = ""
     @State private var messages: [ChatMessage] = [
         ChatMessage(author: "Alex", text: "Hey, welcome to Wake Up.", isCurrentUser: false),
@@ -39,10 +41,17 @@ struct ChatView: View {
 
     private var header: some View {
         HStack {
+            Button(action: onMenuTap) {
+                Image(systemName: "line.3.horizontal")
+                    .foregroundStyle(.white)
+            }
+
             Text("# \(channelName)")
                 .font(.headline)
                 .foregroundStyle(.white)
+
             Spacer()
+
             Image(systemName: "person.3")
                 .foregroundStyle(.white.opacity(0.8))
         }
