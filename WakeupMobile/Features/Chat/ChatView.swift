@@ -17,13 +17,15 @@ struct ChatView: View {
 
             ScrollViewReader { proxy in
                 ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 12) {
+                    LazyVStack(alignment: .leading, spacing: 10) {
                         ForEach(messages) { message in
                             MessageBubble(author: message.author, text: message.text, isCurrentUser: message.isCurrentUser)
                                 .id(message.id)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, 12)
+                    .padding(.top, 12)
+                    .padding(.bottom, 16)
                 }
                 .background(Color.discordBackground)
                 .onChange(of: messages.count) { _, _ in
@@ -40,40 +42,45 @@ struct ChatView: View {
     }
 
     private var header: some View {
-        HStack {
+        HStack(spacing: 12) {
             Button(action: onMenuTap) {
                 Image(systemName: "line.3.horizontal")
+                    .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(.white)
             }
 
             Text("# \(channelName)")
-                .font(.headline)
+                .font(.headline.weight(.semibold))
                 .foregroundStyle(.white)
 
             Spacer()
 
             Image(systemName: "person.3")
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(Color.discordTextSecondary)
         }
-        .padding()
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
         .background(Color.discordSurface)
     }
 
     private var composer: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 10) {
             Image(systemName: "plus.circle.fill")
                 .foregroundStyle(Color.discordAccent)
 
             TextField("Message #\(channelName)", text: $draftMessage)
                 .textFieldStyle(.plain)
                 .foregroundStyle(.white)
+                .submitLabel(.send)
                 .onSubmit(sendMessage)
 
             Button("Send", action: sendMessage)
-                .foregroundStyle(draftMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .secondary : Color.discordAccent)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(draftMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.discordTextSecondary : Color.discordAccent)
                 .disabled(draftMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         }
-        .padding()
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
         .background(Color.discordSurface)
     }
 
